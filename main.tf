@@ -328,7 +328,7 @@ resource "random_id" "randomId" {
 }
 
 resource "azurerm_storage_account" "storageaccount_log" {
-  name                     = "${var.prefix}-log${random_id.randomId.hex}"
+  name                     = "${var.prefix}log${random_id.randomId.hex}"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_replication_type = "LRS"
