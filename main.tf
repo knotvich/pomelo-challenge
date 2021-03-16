@@ -37,7 +37,7 @@ resource "azurerm_resource_group" "rg" {
 
 resource "azurerm_virtual_network" "main" {
   name                = "${var.prefix}-network"
-  address_space       = ["var.virtual_network_address_space"]
+  address_space       = [var.virtual_network_address_space]
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 }
@@ -46,7 +46,7 @@ resource "azurerm_subnet" "default" {
   name                 = "default"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.main.name
-  address_prefixes     = ["var.virtual_network_default_subnet"]
+  address_prefixes     = [var.virtual_network_default_subnet]
 }
 
 resource "azurerm_nat_gateway" "main" {
@@ -218,7 +218,7 @@ resource "azurerm_linux_virtual_machine" "web" {
 
   admin_ssh_key {
     username   = "${var.prefix}-admin"
-    public_key = file(var.ssh_public_key_file_path)
+    public_key = var.ssh_public_key
   }
 
   os_disk {
@@ -241,7 +241,7 @@ resource "azurerm_linux_virtual_machine" "web" {
     host        = self.public_ip_address
     type        = "ssh"
     user        = "${var.prefix}-admin"
-    private_key = file(var.ssh_private_key_file_path)
+    private_key = var.ssh_private_key
   }
 
   provisioner "remote-exec" {

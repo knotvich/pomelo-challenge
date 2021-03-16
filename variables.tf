@@ -10,14 +10,6 @@ variable "virtual_network_default_subnet" {
   default = "10.0.1.0/24"
 }
 
-variable "ssh_public_key_file_path" {
-  default = "~/.ssh/terraform.pub"
-}
-
-variable "ssh_private_key_file_path" {
-  default = "~/.ssh/terraform"
-}
-
 variable "postgresql_server_name" {
   default = "postgresql"
 }
