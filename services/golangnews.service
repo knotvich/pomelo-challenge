@@ -1,0 +1,22 @@
+[Unit]
+Description=golangnews application
+ConditionPathExists=/home/terraform-admin/web
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+
+WorkingDirectory=/home/terraform-admin/web
+ExecStart=/home/terraform-admin/web/golangnews
+
+Restart=on-failure
+RestartSec=10
+
+ExecStartPre=/bin/mkdir -p /var/log/golangnews
+ExecStartPre=/bin/chown syslog:adm /var/log/golangnews
+ExecStartPre=/bin/chmod 775 /home/terraform-admin/web/golangnews
+
+[Install]
+WantedBy=multi-user.target
