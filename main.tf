@@ -29,8 +29,8 @@ resource "azurerm_resource_group" "rg" {
   name     = "${var.prefix}-rg"
   location = "southeastasia"
   tags = {
-      env = "staging"
-      team = "devops"
+    env  = "staging"
+    team = "devops"
   }
 
 }
@@ -227,7 +227,7 @@ resource "azurerm_linux_virtual_machine" "web" {
   }
 
   boot_diagnostics {
-      storage_account_uri = azurerm_storage_account.storageaccount_log.primary_blob_endpoint
+    storage_account_uri = azurerm_storage_account.storageaccount_log.primary_blob_endpoint
   }
 
   source_image_reference {
@@ -236,12 +236,12 @@ resource "azurerm_linux_virtual_machine" "web" {
     sku       = "18.04-LTS"
     version   = "latest"
   }
-  
+
   connection {
-    host         = self.public_ip_address
-    type         = "ssh"
-    user         = "${var.prefix}-admin"
-    private_key  = file(var.ssh_private_key_file_path)
+    host        = self.public_ip_address
+    type        = "ssh"
+    user        = "${var.prefix}-admin"
+    private_key = file(var.ssh_private_key_file_path)
   }
 
   provisioner "remote-exec" {
@@ -277,7 +277,7 @@ resource "azurerm_linux_virtual_machine" "web" {
     ]
   }
 
- tags = {
+  tags = {
     env = "staging"
   }
 }
@@ -289,7 +289,7 @@ resource "azurerm_virtual_machine_extension" "web" {
   type                 = "OmsAgentForLinux"
   type_handler_version = "1.13"
 
-  settings = <<SETTINGS
+  settings           = <<SETTINGS
     {
         "workspaceId": "${data.azurerm_log_analytics_workspace.main.workspace_id}"
     }
@@ -313,44 +313,44 @@ resource "azurerm_log_analytics_workspace" "main" {
   retention_in_days   = 30
 
   tags = {
-      env = "staging"
+    env = "staging"
   }
 }
 
 
 resource "random_id" "randomId" {
-    keepers = {
-        # Generate a new ID only when a new resource group is defined
-        resource_group = azurerm_resource_group.rg.name
-    }
+  keepers = {
+    # Generate a new ID only when a new resource group is defined
+    resource_group = azurerm_resource_group.rg.name
+  }
 
-    byte_length = 8
+  byte_length = 8
 }
 
 resource "azurerm_storage_account" "storageaccount_log" {
-    name                        = "${var.prefix}-log${random_id.randomId.hex}"
-    resource_group_name         = azurerm_resource_group.rg.name
-    location                    = azurerm_resource_group.rg.location
-    account_replication_type    = "LRS"
-    account_tier                = "Standard"
+  name                     = "${var.prefix}-log${random_id.randomId.hex}"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_replication_type = "LRS"
+  account_tier             = "Standard"
 
-    tags = {
-        env = "staging"
-    }
+  tags = {
+    env = "staging"
+  }
 }
 
 
- resource "azurerm_postgresql_server" "main" {
+resource "azurerm_postgresql_server" "main" {
   name                = "${var.postgresql_server_name}-${random_id.randomId.hex}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
   sku_name = "B_Gen5_1"
 
-  storage_mb                    = 51200
-  backup_retention_days         = 7
-  geo_redundant_backup_enabled  = false
-  auto_grow_enabled             = true
+  storage_mb                   = 51200
+  backup_retention_days        = 7
+  geo_redundant_backup_enabled = false
+  auto_grow_enabled            = true
 
   administrator_login           = var.postgresql_db_username
   administrator_login_password  = var.postgresql_db_password
