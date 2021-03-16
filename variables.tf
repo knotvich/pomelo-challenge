@@ -10,6 +10,14 @@ variable "virtual_network_default_subnet" {
   default = "10.0.1.0/24"
 }
 
+variable "ssh_public_key" {
+  # Value will be declare in Terraform Cloud
+}
+
+variable "ssh_private_key" {
+  # Value will be declare in Terraform Cloud
+}
+
 variable "postgresql_server_name" {
   default = "postgresql"
 }
