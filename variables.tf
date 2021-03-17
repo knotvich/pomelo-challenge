@@ -27,7 +27,7 @@ variable "postgresql_db_username" {
 }
 
 variable "postgresql_db_password" {
-  default = "FRWzRhKb}@3/|~K'Lu4z"
+  default = "pqsqP@ssw0rd"
 }
 
 variable "postgresql_version" {
@@ -38,10 +38,10 @@ variable "postgresql_charset" {
   default = "UTF8"
 }
 
-variable "allow_start_ip_address" {
-  default = "49.228.65.194"
+variable "postgresql_allow_start_ip_address" {
+  default = "0.0.0.0"
 }
 
-variable "allow_end_ip_address" {
-  default = "49.228.65.194"
+variable "postgresql_allow_end_ip_address" {
+  default = "255.255.255.255"
 }
