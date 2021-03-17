@@ -13,7 +13,7 @@ terraform {
   required_version = "~> 0.14"
 
   backend "remote" {
-    organization = "pomelo-challenge"
+    organization = "REPLACE-YOUR-ORGANIZATION"
 
     workspaces {
       name = "pomelo-challenge-gh-actions"
@@ -371,8 +371,8 @@ resource "azurerm_postgresql_firewall_rule" "home" {
   name                = "home"
   resource_group_name = azurerm_resource_group.rg.name
   server_name         = azurerm_postgresql_server.main.name
-  start_ip_address    = var.allow_start_ip_address
-  end_ip_address      = var.allow_end_ip_address
+  start_ip_address    = var.postgresql_allow_start_ip_address
+  end_ip_address      = var.postgresql_allow_end_ip_address
 }
 
 
@@ -400,10 +400,6 @@ output "web_public_ip_address" {
 data "azurerm_postgresql_server" "main" {
   name                = azurerm_postgresql_server.main.name
   resource_group_name = azurerm_postgresql_server.main.resource_group_name
-}
-
-output "postgresql_server_id" {
-  value = data.azurerm_postgresql_server.main.id
 }
 
 data "azurerm_log_analytics_workspace" "main" {
